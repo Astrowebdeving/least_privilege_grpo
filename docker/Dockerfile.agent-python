@@ -1,0 +1,23 @@
+FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    python3 python3-pip python3-venv python3-pytest \
+    git ripgrep fd-find tree jq \
+    strace inotify-tools \
+    build-essential \
+    curl ca-certificates \
+    bash coreutils findutils sed gawk grep procps \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN ln -sf /usr/bin/python3 /usr/local/bin/python
+
+RUN mkdir -p /workspace /opt/lp-rl
+COPY docker/fake_proxy.py /opt/lp-rl/fake_proxy.py
+COPY docker/lp-run /usr/local/bin/lp-run
+RUN chmod 0755 /usr/local/bin/lp-run /opt/lp-rl/fake_proxy.py
+
+WORKDIR /workspace
+
+CMD ["sleep", "infinity"]

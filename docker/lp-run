@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "BLOCKED: lp-run does not execute raw shell strings in v1" >&2
+echo "Use the host broker terminal_run tool; it parses and lowers validated AST nodes." >&2
+exit 126

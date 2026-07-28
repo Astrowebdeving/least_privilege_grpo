@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "least-privilege-rl"
+version = "0.1.0"
+description = "Least-privilege terminal environment and task harness for RL coding agents."
+requires-python = ">=3.11"
+dependencies = [
+  "tree-sitter>=0.21",
+  "tree-sitter-bash>=0.21",
+]
+
+[project.optional-dependencies]
+train = [
+  "trl==1.5.1",
+  "transformers==5.10.2",
+  "vllm==0.22.1",
+]
+test = [
+  "pytest>=8",
+]
+
+[tool.setuptools.packages.find]
+include = ["least_privilege_env*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

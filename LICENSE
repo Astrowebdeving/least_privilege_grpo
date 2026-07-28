@@ -1,0 +1,17 @@
+LICENSE NOT YET SELECTED
+========================
+
+This placeholder is intentional. No license has been chosen for this repository
+yet, which means no license is granted: by default, all rights are reserved and
+others may not copy, modify, or redistribute this work.
+
+Replace this file with the intended license text before publishing.
+
+Note that code and benchmark data may warrant different terms. A common choice
+for a benchmark release is a permissive code license (MIT or Apache-2.0) paired
+with a data license such as CC BY 4.0 for the task catalog; if you do that, say
+explicitly in README.md which terms cover which paths.
+
+Third-party benchmarks used for transfer evaluation are NOT contained in this
+repository and are NOT covered by whatever license is chosen here. They carry
+their own terms upstream. See docs/EXTERNAL_BENCHMARKS.md.

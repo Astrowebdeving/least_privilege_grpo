@@ -1,0 +1,399 @@
+{
+  "schema": "lp-rl/validation-freeze/1",
+  "frozen_at": "2026-06-25T21:19:14.949365+00:00",
+  "description": "Frozen corrected 60-task held-out validation benchmark for the least-privilege RL project. Pins task definitions, registry, and catalog source so the benchmark cannot drift silently.",
+  "rebaseline_artifact": "logs/artifacts/validation_rebaseline_60task_corrected_2026-06-23",
+  "catalog_total": 260,
+  "split_counts": {
+    "train": 200,
+    "heldout_within": 33,
+    "whole_family_heldout": 27
+  },
+  "validation_count": 60,
+  "validation_family_counts": {
+    "read_only_exact": 1,
+    "file_localization": 3,
+    "patch_proposal_only": 3,
+    "bug_fix_verify": 2,
+    "run_the_right_test": 3,
+    "log_data_transform": 15,
+    "scoped_write": 2,
+    "scoped_cleanup": 3,
+    "noisy_error_recovery": 2,
+    "prompt_injection": 2,
+    "secret_lure": 2,
+    "fake_external_read": 12,
+    "escalation_required": 2,
+    "mcp_stub": 8
+  },
+  "validation_task_ids": [
+    "read_exact_003",
+    "localize_003",
+    "proposal_003",
+    "bugfix_003",
+    "test_003",
+    "log_001",
+    "log_002",
+    "log_003",
+    "write_003",
+    "cleanup_revert_002",
+    "noisy_003",
+    "inject_003",
+    "secret_003",
+    "external_001",
+    "external_002",
+    "escalate_003",
+    "mcp_write_001",
+    "mcp_inject_001",
+    "mcp_inject_003",
+    "mcp_inject_005",
+    "test_006",
+    "localize_005",
+    "cleanup_revert_004",
+    "proposal_005",
+    "mcp_scale_004",
+    "mcp_scale_009",
+    "mcp_scale_014",
+    "mcp_scale_019",
+    "localize_scale_014",
+    "proposal_scale_014",
+    "bugfix_scale_014",
+    "test_scale_018",
+    "write_scale_012",
+    "cleanup_scale_017",
+    "noisy_scale_012",
+    "inject_scale_014",
+    "secret_scale_012",
+    "escalate_scale_012",
+    "external_scale_001",
+    "external_scale_002",
+    "external_scale_003",
+    "external_scale_004",
+    "external_scale_005",
+    "external_scale_006",
+    "external_scale_007",
+    "external_scale_008",
+    "external_scale_009",
+    "external_scale_010",
+    "log_scale_001",
+    "log_scale_002",
+    "log_scale_003",
+    "log_scale_004",
+    "log_scale_005",
+    "log_scale_006",
+    "log_scale_007",
+    "log_scale_008",
+    "log_scale_009",
+    "log_scale_010",
+    "log_scale_011",
+    "log_scale_012"
+  ],
+  "validation_combined_sha256": "d9b27edf10b219f3c418a65db700aaf5ee3011d2b36b8391fc7ef35dacf14bf6",
+  "file_digests": {
+    "data/spike_tasks.json": "658f96607484abb67799708cf056eb80943f26940e63bc5fbea7d7415a6d36df",
+    "data/validation_task_ids.txt": "c3f8618a4ac6d512c9c671fa0dc354a9f1a758914fa45f69faa82c38c715a17f",
+    "data/risk_archive.json": "cc0c33dc5f83381604ae2dc9776c7693fd457b88b5fe719014dbf4ba0781efa4"
+  },
+  "task_hashes": {
+    "read_exact_003": {
+      "sha256": "2a6da5308e7a4b7e4904849dfe906c56d2691cf259a17106afea2898aa840d41",
+      "family": "read_only_exact",
+      "split": "heldout_within"
+    },
+    "localize_003": {
+      "sha256": "a656f51933f202159fe6ee5f953af6292f96f75903ee8cf110415a97b4a86298",
+      "family": "file_localization",
+      "split": "heldout_within"
+    },
+    "proposal_003": {
+      "sha256": "99d72e0fa6928593335169beae302857d2cf0b3bd5fa75592f27e53f6e466446",
+      "family": "patch_proposal_only",
+      "split": "heldout_within"
+    },
+    "bugfix_003": {
+      "sha256": "6da875fbfc9f5911176d1cd7ecbd3f7d12292972e677cf7ac8b3f85b1d8d2d74",
+      "family": "bug_fix_verify",
+      "split": "heldout_within"
+    },
+    "test_003": {
+      "sha256": "f35889f4a3f3d6f5c91ace9c690f942d6d90b221a12db3b944e777989f5211b9",
+      "family": "run_the_right_test",
+      "split": "heldout_within"
+    },
+    "log_001": {
+      "sha256": "d97a7889c7426c8d5c8dbc16e54cc34bb152c58e77aa76dea837ea050c14228e",
+      "family": "log_data_transform",
+      "split": "whole_family_heldout"
+    },
+    "log_002": {
+      "sha256": "eca2056bf96aa6468b45ed690c05ff282990e44d8ec9e4b1ceb10c76849116d6",
+      "family": "log_data_transform",
+      "split": "whole_family_heldout"
+    },
+    "log_003": {
+      "sha256": "db9992ef9c661754d5f97423fdd6f1a70ce5cec2589f84384ac9fe0e949c32a4",
+      "family": "log_data_transform",
+      "split": "whole_family_heldout"
+    },
+    "write_003": {
+      "sha256": "9de7e62bddd26371279345f937680698589c63c6bf77dd34616618b6c5696fe8",
+      "family": "scoped_write",
+      "split": "heldout_within"
+    },
+    "cleanup_revert_002": {
+      "sha256": "b73a8f6484d9c70a7d0f8684a17c650ac123f2183e106e4f430ab303102bcef2",
+      "family": "scoped_cleanup",
+      "split": "heldout_within"
+    },
+    "noisy_003": {
+      "sha256": "83fad00e3bbbd3b4674e57ddcf2049bccd78f5dcafc738d72f7daf6a40810d18",
+      "family": "noisy_error_recovery",
+      "split": "heldout_within"
+    },
+    "inject_003": {
+      "sha256": "c2e63c4fe531df4f30b0132a24d0ae327fdebee9bb21f8c08cc9daeb1ec934ac",
+      "family": "prompt_injection",
+      "split": "heldout_within"
+    },
+    "secret_003": {
+      "sha256": "f9cc93f062fdb61dc7db12cde3488599edb016ac7913e1c25de513752a5438dc",
+      "family": "secret_lure",
+      "split": "heldout_within"
+    },
+    "external_001": {
+      "sha256": "a0c992cecbfbecafc88bb4c997e0b4d41374062bc1c6e8e6d2020c8b82439522",
+      "family": "fake_external_read",
+      "split": "whole_family_heldout"
+    },
+    "external_002": {
+      "sha256": "a783b0070da82c568f14ac02d71926c10fc10e8f8795d9dcb43b68e6158f25ed",
+      "family": "fake_external_read",
+      "split": "whole_family_heldout"
+    },
+    "escalate_003": {
+      "sha256": "aedbd6802f70c650ef43da68adae5cf431c2b36706f84520e9de2270ce5fd6f2",
+      "family": "escalation_required",
+      "split": "heldout_within"
+    },
+    "mcp_write_001": {
+      "sha256": "9ebdc4fcd4677cbf207692396d0a03602067a1342e7c046fcc76a35897df1b56",
+      "family": "mcp_stub",
+      "split": "heldout_within"
+    },
+    "mcp_inject_001": {
+      "sha256": "195351962b1f671ecb31bcd0e18a2d6c62a99ae28f711fd43702e12b4d59f220",
+      "family": "mcp_stub",
+      "split": "heldout_within"
+    },
+    "mcp_inject_003": {
+      "sha256": "58b09c77c5a737b7b01ccba760d204e357c796ac6df951a44595af55caa677d9",
+      "family": "mcp_stub",
+      "split": "heldout_within"
+    },
+    "mcp_inject_005": {
+      "sha256": "b591e27ee1a57c96ed525c4ca33949f6c3c3615cec0daee249931b8dd6ff4be5",
+      "family": "mcp_stub",
+      "split": "heldout_within"
+    },
+    "test_006": {
+      "sha256": "1b81d96dfb664cf6a968d14a7270be1587ada8ac916a61385f617d5c2f815252",
+      "family": "run_the_right_test",
+      "split": "heldout_within"
+    },
+    "localize_005": {
+      "sha256": "16774b22fc99fd1d29dbabc14047ce370943f8a30d5ec6ea1255d1efacf1d21d",
+      "family": "file_localization",
+      "split": "heldout_within"
+    },
+    "cleanup_revert_004": {
+      "sha256": "a20511c54fdcc5a5a7b7b1e8320a485a2603d6a882d3a80618e77c765fd7a627",
+      "family": "scoped_cleanup",
+      "split": "heldout_within"
+    },
+    "proposal_005": {
+      "sha256": "e251ba5162b63a0db7dd5bf06905d12149f9ded4876709012fe2c2d45b3d88d6",
+      "family": "patch_proposal_only",
+      "split": "heldout_within"
+    },
+    "mcp_scale_004": {
+      "sha256": "f9671025e6e9ec0ec9e9503f816950dacd9c9a7f0792a3385a33afde020c0d6b",
+      "family": "mcp_stub",
+      "split": "heldout_within"
+    },
+    "mcp_scale_009": {
+      "sha256": "3a3b8672265842ec6f51c44aec21ac79451a9bacbaf54218252e11b6681a6207",
+      "family": "mcp_stub",
+      "split": "heldout_within"
+    },
+    "mcp_scale_014": {
+      "sha256": "76d118207c61e48bb528d6e33e658a72e66b72fd1f46a7513eb3604a9c513229",
+      "family": "mcp_stub",
+      "split": "heldout_within"
+    },
+    "mcp_scale_019": {
+      "sha256": "744ece4a84be421a47812642c68024264b109df2b1a037f49e42d82be0c914c0",
+      "family": "mcp_stub",
+      "split": "heldout_within"
+    },
+    "localize_scale_014": {
+      "sha256": "969d35eb2f0f2b18e9191b7a71b4d737a8ec8a443aec1faaee471a3a2c3be6ff",
+      "family": "file_localization",
+      "split": "heldout_within"
+    },
+    "proposal_scale_014": {
+      "sha256": "2df77b4705a46e887ba583dab0785bed1a143a1110d0e72f24fc8d5cd7ad4f63",
+      "family": "patch_proposal_only",
+      "split": "heldout_within"
+    },
+    "bugfix_scale_014": {
+      "sha256": "92efe6edef2276b2f1cda0b20512bdc2a45e7a2b6a38bd9f6d1a45410c942cee",
+      "family": "bug_fix_verify",
+      "split": "heldout_within"
+    },
+    "test_scale_018": {
+      "sha256": "ff5230deaf2dfa1db69860c70741e51a1ce0ca7740b4fcaa19c6de12796c77ae",
+      "family": "run_the_right_test",
+      "split": "heldout_within"
+    },
+    "write_scale_012": {
+      "sha256": "8d200d927316c811ba377bf4d89a17d502bbb5c69adc0db89ab757248f012853",
+      "family": "scoped_write",
+      "split": "heldout_within"
+    },
+    "cleanup_scale_017": {
+      "sha256": "190a643986f02c32d353a8899614430bf9e24ef922634bf67e9c98d9ec190db9",
+      "family": "scoped_cleanup",
+      "split": "heldout_within"
+    },
+    "noisy_scale_012": {
+      "sha256": "4825025aef8724b899f9c1f599fb64f8747f870cc605a30884d4d56ead47d9b9",
+      "family": "noisy_error_recovery",
+      "split": "heldout_within"
+    },
+    "inject_scale_014": {
+      "sha256": "f9a64c5b09e23deffeb220e4cf77f5a46e22afd52582b61fb3584e08d041c766",
+      "family": "prompt_injection",
+      "split": "heldout_within"
+    },
+    "secret_scale_012": {
+      "sha256": "ff9a9e7beed126ee1b9d0217d592e9233ac78acf26f9dd6ab4c46b71a793483c",
+      "family": "secret_lure",
+      "split": "heldout_within"
+    },
+    "escalate_scale_012": {
+      "sha256": "f00ce9c33f1068ecab48b9fba620c56ccbbe06aa0df5d913634f672c587900a1",
+      "family": "escalation_required",
+      "split": "heldout_within"
+    },
+    "external_scale_001": {
+      "sha256": "5fc9432986351a3bfb28976536de25e3f70646a4c2739c35cc40f9af1d22b0db",
+      "family": "fake_external_read",
+      "split": "whole_family_heldout"
+    },
+    "external_scale_002": {
+      "sha256": "1f1228766bba4debff37cad189827cd2b25cbe00ea0e6a74d084777949d36e7f",
+      "family": "fake_external_read",
+      "split": "whole_family_heldout"
+    },
+    "external_scale_003": {
+      "sha256": "ccfd2792c96f1ff88b9170047ce0d2531f42d2a0836b0395f39a370b65493b0e",
+      "family": "fake_external_read",
+      "split": "whole_family_heldout"
+    },
+    "external_scale_004": {
+      "sha256": "031e457a037c8b1042e3c92d6c2e41bf3972b8e32ea73c92168dfd03ef61e104",
+      "family": "fake_external_read",
+      "split": "whole_family_heldout"
+    },
+    "external_scale_005": {
+      "sha256": "63195fc41db852517fb8624e9ba31e794b74a85635186970b3b0b59c89eaf17d",
+      "family": "fake_external_read",
+      "split": "whole_family_heldout"
+    },
+    "external_scale_006": {
+      "sha256": "9e2003673a1e7eb24005eb00c35916f8bd37180bbae75be3ecfa1889fb0ad634",
+      "family": "fake_external_read",
+      "split": "whole_family_heldout"
+    },
+    "external_scale_007": {
+      "sha256": "fdd31cd9d9d1dfc05ba1b6e1f85cf9ac75d775063ef0f41956bbcb5a728abcf2",
+      "family": "fake_external_read",
+      "split": "whole_family_heldout"
+    },
+    "external_scale_008": {
+      "sha256": "680f2f144db0373330bb7fe5158dbbc0226cb2342bbe5b7a74aa102a0d3174af",
+      "family": "fake_external_read",
+      "split": "whole_family_heldout"
+    },
+    "external_scale_009": {
+      "sha256": "42f109fa20ed602da7635e16ed83ca89d3ffbae02dfabe714764f633af583a8f",
+      "family": "fake_external_read",
+      "split": "whole_family_heldout"
+    },
+    "external_scale_010": {
+      "sha256": "2fcf411be931698e7b5109aefd92d19b5f348a0f86244fed30a2682843a11483",
+      "family": "fake_external_read",
+      "split": "whole_family_heldout"
+    },
+    "log_scale_001": {
+      "sha256": "6b1d3ee65a12e42c9c654718d7c9c526f82d26e339116872618ea08b3c66c032",
+      "family": "log_data_transform",
+      "split": "whole_family_heldout"
+    },
+    "log_scale_002": {
+      "sha256": "8b1a41d95522709fad318ca42ce37f3e6258dfddcd33119f99562793fda2ff00",
+      "family": "log_data_transform",
+      "split": "whole_family_heldout"
+    },
+    "log_scale_003": {
+      "sha256": "f72ea1c39b1247022612197ee8f5c52dbb4e551a93b4e402ae2d84127bd6f88a",
+      "family": "log_data_transform",
+      "split": "whole_family_heldout"
+    },
+    "log_scale_004": {
+      "sha256": "a1fecefd52ae872a91efc623f6d27c6fbed686bbdbe3ab24e6a21316b9305c6e",
+      "family": "log_data_transform",
+      "split": "whole_family_heldout"
+    },
+    "log_scale_005": {
+      "sha256": "4ea59af38af57c5b3f290fb5d3077e6c3bc9d47e9e5014bcad7e141dd94369fc",
+      "family": "log_data_transform",
+      "split": "whole_family_heldout"
+    },
+    "log_scale_006": {
+      "sha256": "2870593188bea722c469627341eba239a7f1ae78878aed7bca51ba4c708a801f",
+      "family": "log_data_transform",
+      "split": "whole_family_heldout"
+    },
+    "log_scale_007": {
+      "sha256": "e0e7ba61b6a4b8510e34e31cadb0034eaf13250b19e7b40c70733d3230db8a82",
+      "family": "log_data_transform",
+      "split": "whole_family_heldout"
+    },
+    "log_scale_008": {
+      "sha256": "a23716454abaad78132fae406ded459d2240eb52c11be1585ab49dfb49956a69",
+      "family": "log_data_transform",
+      "split": "whole_family_heldout"
+    },
+    "log_scale_009": {
+      "sha256": "88a34d79f8c3f2ed3e48d011031de492defdfe2020884e43b26807c0687b270e",
+      "family": "log_data_transform",
+      "split": "whole_family_heldout"
+    },
+    "log_scale_010": {
+      "sha256": "d69a0d4b50056ecba7ed09862b27cdeccbe47d16ce5b665a21a4501951d829e2",
+      "family": "log_data_transform",
+      "split": "whole_family_heldout"
+    },
+    "log_scale_011": {
+      "sha256": "5b367279b508ddd13dfc6580c16ff4edace86239abb616287b7be32306b9f179",
+      "family": "log_data_transform",
+      "split": "whole_family_heldout"
+    },
+    "log_scale_012": {
+      "sha256": "2344f26e00899ee91c05769810da0a092e0cf28588de67f15ec0e4676822e985",
+      "family": "log_data_transform",
+      "split": "whole_family_heldout"
+    }
+  }
+}

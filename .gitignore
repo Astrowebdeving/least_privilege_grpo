@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+.venv-train/
+
+# Third-party benchmarks are fetched, never vendored.
+# See docs/EXTERNAL_BENCHMARKS.md
+external/
+
+# Run artifacts: rollouts, checkpoints, adapters, evaluation output.
+logs/
+*.jsonl
+
+# Local scratch
+tmp/
+archive/
