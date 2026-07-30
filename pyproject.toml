@@ -1,11 +1,14 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+# >=77 for PEP 639 (`license = "MIT"` as an SPDX string + license-files).
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "least-privilege-rl"
 version = "0.1.0"
 description = "Least-privilege terminal environment and task harness for RL coding agents."
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
 dependencies = [
   "tree-sitter>=0.21",

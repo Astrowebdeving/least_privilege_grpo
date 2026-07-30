@@ -1,17 +1,21 @@
-LICENSE NOT YET SELECTED
-========================
+MIT License
 
-This placeholder is intentional. No license has been chosen for this repository
-yet, which means no license is granted: by default, all rights are reserved and
-others may not copy, modify, or redistribute this work.
+Copyright (c) 2026 Alex
 
-Replace this file with the intended license text before publishing.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-Note that code and benchmark data may warrant different terms. A common choice
-for a benchmark release is a permissive code license (MIT or Apache-2.0) paired
-with a data license such as CC BY 4.0 for the task catalog; if you do that, say
-explicitly in README.md which terms cover which paths.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-Third-party benchmarks used for transfer evaluation are NOT contained in this
-repository and are NOT covered by whatever license is chosen here. They carry
-their own terms upstream. See docs/EXTERNAL_BENCHMARKS.md.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

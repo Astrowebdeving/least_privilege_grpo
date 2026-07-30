@@ -230,4 +230,9 @@ checks in `scripts/`. Interfaces may still change.
 
 ## License
 
-See `LICENSE`.
+MIT — see [LICENSE](LICENSE). This covers everything in this repository,
+including the code, the task catalogs, and the frozen evaluation artifacts.
+
+Third-party benchmarks used for transfer evaluation are **not** contained in
+this repository and are not covered by this license; they carry their own terms
+upstream.
