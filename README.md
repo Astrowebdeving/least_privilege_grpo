@@ -224,7 +224,7 @@ because those depend on corpora we cannot redistribute.
 
 ## Status
 
-Research code accompanying a paper in preparation. The environment, benchmark,
+Research code accompanying a paper. The environment, benchmark,
 reward, and training pipeline are complete and gated by the test suite and the
 checks in `scripts/`. Interfaces may still change.
 
