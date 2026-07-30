@@ -15,7 +15,12 @@ run_gate() {
     fi
 }
 
+# Catalog provenance chain, in build order: the 260-task base, the 2,000-task
+# benchmark appended to it, then the 500-task held-out freeze taken from that.
+# Each --check asserts the committed artifact is byte-identical to a fresh build.
 run_gate expanded_tasks  $PY scripts/build_expanded_tasks.py --check
+run_gate expansion_v2    $PY scripts/build_expansion_v2.py --check
+run_gate freeze_v2       $PY scripts/freeze_expansion_v2.py --check
 run_gate build_archive   $PY scripts/build_risk_archive.py
 run_gate validate_tasks  $PY scripts/validate_tasks.py
 run_gate task_quality    $PY scripts/check_task_quality.py

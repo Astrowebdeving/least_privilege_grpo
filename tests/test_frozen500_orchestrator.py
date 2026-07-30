@@ -97,8 +97,12 @@ def test_frozen500_orchestrator_has_hard_publication_guards() -> None:
     for required in (
         "build_validation_tiers_v2.py --check",
         "check_rootless_docker.py",
-        'DOCKER_ROOT" = "/mnt/nvme-docker/lp-docker"',
-        'TMPDIR" = "/dev/shm"',
+        # The storage policy stays fail-closed, but the expected locations are
+        # overridable so the guard is not pinned to our hardware.
+        'DOCKER_ROOT" = "$EXPECTED_DOCKER_ROOT"',
+        'EXPECTED_DOCKER_ROOT:-/mnt/nvme-docker/lp-docker',
+        'TMPDIR" = "$EXPECTED_TMPDIR"',
+        'EXPECTED_TMPDIR:-/dev/shm',
         "validate_frozen500_run.py",
         "safety_metrics_v2.json",
         "COMPLETION_GUARD.json",

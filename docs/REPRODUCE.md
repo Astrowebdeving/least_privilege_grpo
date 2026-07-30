@@ -22,6 +22,24 @@ bash scripts/create_train_venv.sh                          # .venv-train (TRL/vL
 Keep them apart. The training stack pins `trl==1.5.1`, `transformers==5.10.2`,
 `vllm==0.22.1`; installing those into the serving environment will break it.
 
+## 0. Select the benchmark
+
+The library defaults to the 260-task development catalog. Every real run must
+opt in to the 2,000-task benchmark:
+
+```bash
+source scripts/benchmark_env.sh
+```
+
+This exports `LP_RL_TASK_FILE` and `LP_RL_RISK_ARCHIVE` together. Exporting the
+task file alone is the easiest mistake to make here: it runs the right tasks,
+but the risk archive then covers only 260 of the 2,000, and every safety column
+in the summaries (`safe_success`, `over_privileged_success`) becomes silently
+meaningless rather than erroring.
+
+The risk archives are report-only. They do not affect the training reward, which
+comes from each task's own `required_risk` field.
+
 ## 1. Set up the sandbox
 
 ```bash
@@ -42,21 +60,23 @@ classified rather than trusted.
 ## 2. Verify the catalog
 
 Every artifact is reproducible from its builder, and each builder supports
-`--check` to assert the committed file matches what the builder would emit:
+`--check` to assert the committed file matches what the builder would emit. The
+chain runs in this order:
 
 ```bash
-python scripts/build_expansion_v2.py --check      # 2,000-task catalog
-python scripts/build_risk_archive.py --check      # host-only risk labels
-python scripts/freeze_expansion_v2.py --check     # the freeze manifest
-python scripts/check_risk_archive.py
+python scripts/build_expanded_tasks.py --check    # 260-task base
+python scripts/build_expansion_v2.py --check      # 2,000-task benchmark
+python scripts/freeze_expansion_v2.py --check     # 500-task held-out freeze
+python scripts/build_risk_archive.py              # refresh host-only risk labels
+python scripts/check_risk_archive.py              # gate: labels match catalog + reward semantics
 python scripts/check_task_quality.py
 python scripts/validate_tasks.py
 ```
 
-Or run everything:
+Or run everything, in dependency order, stopping at the first failure:
 
 ```bash
-bash scripts/_run_all_gates.sh
+bash scripts/_run_all_gates.sh                    # ~8 minutes
 ```
 
 These gates are not decoration. They enforce that no held-out task shares a
@@ -64,22 +84,21 @@ prompt or `template_group_id` with a training task, that verifiers cannot be
 satisfied by reading the workspace, and that reward is not trivially hackable
 (`check_reward_hacking_probes.py`, `check_reward_sensitivity.py`).
 
+Note the gate suite runs against the 260-task default on purpose — it executes
+every task's oracle in a container, so the benchmark catalog would take about an
+hour instead of eight minutes. To gate the full catalog, `source
+scripts/benchmark_env.sh` first and expect that runtime.
+
 ## 3. Evaluate a baseline
 
 ```bash
+source scripts/benchmark_env.sh
 bash scripts/serve_train_vllm.sh                  # vLLM on GPU 1
 export LP_RL_SANDBOX=docker
-export LP_RL_TASK_FILE=data/expansion_v2_microslice.json
-export LP_RL_RISK_ARCHIVE=data/risk_archive_v2.json
 bash scripts/run_eval_capped.sh
 python scripts/summarize_rollouts.py
 python scripts/safety_metrics_report.py
 ```
-
-`LP_RL_RISK_ARCHIVE` is report-only — it makes `safe_success` and
-`over_privileged_success` meaningful in summaries. It does not affect reward.
-Omitting it does not change training; it silently makes the safety columns
-meaningless, which is easy to miss.
 
 ## 4. Train
 
@@ -104,15 +123,14 @@ python scripts/compare_rollout_reports.py
 ```
 
 Evaluate a **fixed, pre-registered** checkpoint. Selecting a checkpoint by its
-score on the evaluation set turns a held-out measurement into a training signal;
-external benchmarks in particular must never be used for selection.
+score on the evaluation set turns a held-out measurement into a training signal.
 
 ## Statistical notes
 
-Both the internal splits and the external benchmarks are **paired** designs — the
-same task set under two policies. Use McNemar's test on the discordant pairs, not
-an unpaired comparison of marginal rates; the unpaired version substantially
-understates significance and will hide real effects.
+The evaluation splits are a **paired** design — the same task set under two
+policies. Use McNemar's test on the discordant pairs, not an unpaired comparison
+of marginal rates; the unpaired version substantially understates significance
+and will hide real effects.
 
 For any metric conditioned on an event (for example, over-privilege rate computed
 only over episodes that called a risky tool), decompose before interpreting:
@@ -141,3 +159,8 @@ better decisions from fewer decisions.
   pinned below maximum by a capped component (an evidence term stuck at 0.5, for
   instance) while `success` fires on every generation, it looks mid-range but is
   in fact solved and gradient-free. Check reward *components*, not just totals.
+- **Selecting training tasks by measured gradient magnitude does not work.** A
+  task with zero measured variance at one checkpoint can still be holding a
+  behaviour in place; filtering it out loses that behaviour. Measured advantage
+  is also a high-variance statistic, so a filter fitted on one sample regresses
+  hard toward the mean on the next.

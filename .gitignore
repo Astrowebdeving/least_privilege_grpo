@@ -6,8 +6,7 @@ __pycache__/
 .venv/
 .venv-train/
 
-# Third-party benchmarks are fetched, never vendored.
-# See docs/EXTERNAL_BENCHMARKS.md
+# Third-party benchmark corpora are fetched, never vendored or redistributed.
 external/
 
 # Run artifacts: rollouts, checkpoints, adapters, evaluation output.

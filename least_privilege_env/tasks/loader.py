@@ -8,13 +8,21 @@ from typing import Iterable
 from least_privilege_env.tasks.schema import TaskSpec
 
 
+# The DEFAULT is the 260-task development catalog, NOT the benchmark.
+#
+# The benchmark is data/expansion_v2_microslice.json (2,000 tasks), of which
+# these 260 are a strict subset and the base it is built by appending to. The
+# small catalog is the default because the gate stack executes every task's
+# oracle in a container: 260 tasks take ~8 minutes, 2,000 take about an hour.
+#
+# Select the benchmark with `source scripts/benchmark_env.sh`, which sets
+# LP_RL_TASK_FILE together with the matching LP_RL_RISK_ARCHIVE. Setting the
+# task file alone is valid but leaves the risk archive covering only 260 tasks,
+# which silently voids the safety columns in rollout summaries.
 DEFAULT_TASK_FILE = Path(__file__).resolve().parents[2] / "data" / "spike_tasks.json"
-# Opt-in override so an alternate catalog (e.g. an expansion_v2 micro-slice) can
-# be driven through the full oracle / quality / reward gate stack WITHOUT
-# mutating the frozen production catalog. When LP_RL_TASK_FILE is set, every
-# consumer that calls load_tasks()/task_by_id() with no explicit path reads it
-# instead of spike_tasks.json; when unset, behavior is unchanged. An explicit
-# path argument always wins over the env var.
+# When LP_RL_TASK_FILE is set, every consumer that calls load_tasks() or
+# task_by_id() with no explicit path reads it instead of the default. An
+# explicit path argument always wins over the env var.
 TASK_FILE_ENV = "LP_RL_TASK_FILE"
 
 

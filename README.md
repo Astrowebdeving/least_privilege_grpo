@@ -66,28 +66,72 @@ into the container, so the agent cannot read its way to a passing answer.
 
 ## The benchmark
 
-`data/expansion_v2_microslice.json` — **2,000 tasks across 23 families**, split
-1,500 train / 300 held-out-within-family / 200 whole-family-held-out. The
-whole-family split exists so generalisation can be measured to task *types* never
-seen in training, not merely to new instances of familiar ones.
+**`data/expansion_v2_microslice.json` is the benchmark: 2,000 tasks across 23
+families**, split 1,500 train / 300 held-out-within-family / 200
+whole-family-held-out. The whole-family split exists so generalisation can be
+measured to task *types* never seen in training, not merely to new instances of
+familiar ones.
+
+(The filename says "microslice" for historical reasons — it is the full
+2,000-task catalog. The name is load-bearing: it is recorded inside the frozen
+digests and the risk archive, so renaming it would invalidate the freeze.)
 
 Families span routine engineering work (bug-fix-and-verify, scoped writes, test
 selection, file localisation, structured output) and privilege-pressure
 situations (secret lures, prompt injection, honeypot restraint, escalation-
 required, proposal-only, data minimisation).
 
-Frozen artifacts, so results are reproducible against a fixed target:
+### Two catalogs, and which one to use
+
+| file | tasks | role |
+|---|---|---|
+| `data/spike_tasks.json` | 260 | development subset — the **library default** |
+| `data/expansion_v2_microslice.json` | 2,000 | **the benchmark**; opt in via env var |
+
+The 260-task catalog is a strict subset of the 2,000 and is the default only
+because it keeps the gate suite fast (the gates execute every task's oracle in a
+container; on 2,000 tasks that takes about an hour instead of eight minutes). It
+is also the base the 2,000-task catalog is built by appending to.
+
+**Any real training or evaluation run must select the benchmark explicitly:**
+
+```bash
+source scripts/benchmark_env.sh     # sets LP_RL_TASK_FILE + LP_RL_RISK_ARCHIVE
+```
+
+Setting the task file without the matching risk archive is a silent footgun: it
+trains and evaluates correctly but makes every safety column in the summaries
+meaningless. `benchmark_env.sh` exists so the pair cannot be split.
+
+### Provenance
+
+Every artifact is reproducible from its builder, and each builder has a
+`--check` mode that asserts the committed file is byte-identical to what the
+builder emits:
+
+```
+build_expanded_tasks.py  ->  spike_tasks.json                 (260)
+build_expansion_v2.py    ->  expansion_v2_microslice.json     (260 + 1,740 = 2,000)
+build_risk_archive.py    ->  risk_archive.json                (host-only risk labels)
+freeze_expansion_v2.py   ->  validation_frozen_2000_*.json    (500 held-out + hashes)
+```
+
+### The evaluation set
 
 | file | what it pins |
 |---|---|
-| `data/validation_frozen_2000_2026-06-30.json` | the 2,000-task freeze, split assignment, per-task hashes |
+| `data/validation_frozen_2000_2026-06-30.json` | the 500-task held-out freeze, split assignment, per-task hashes |
+| `data/validation_task_ids_v2.txt` | the 500 held-out task IDs |
 | `data/routine_eval_subset_v2.txt` | the 206-task routine evaluation subset |
-| `data/risk_archive.json`, `data/risk_archive_v2.json` | host-only `required_risk` governance labels + rationale |
-| `data/spike_tasks.json` | the earlier 260-task v1 catalog (still the loader default) |
+| `data/diagnostic_50_v2.txt` | a 50-task fast diagnostic slice |
+| `data/validation_generation_tiers_v2.json` | per-tier generation counts for the confirmatory run |
 
-The risk archives are **report-only**: they make safety metrics interpretable in
-rollout summaries. They do not feed the training reward, which comes from each
-task's own `required_risk` field.
+Two risk archives carry the host-only `required_risk` governance labels and
+their written rationale: `risk_archive.json` (260) and `risk_archive_v2.json`
+(1,740). They merge to cover all 2,000. They are **report-only** — they make
+`safe_success` and `over_privileged_success` interpretable in rollout summaries
+and do not feed the training reward, which comes from each task's own
+`required_risk` field.
 
 ## Layout
 
@@ -111,21 +155,28 @@ tests/        unit and regression suites
 python -m venv .venv && .venv/bin/pip install -e .
 ```
 
-Load the catalog and score a trajectory without any GPU or container:
+Load the catalog and inspect it without any GPU or container:
 
 ```bash
 LP_RL_SANDBOX=local .venv/bin/python -c "
 from least_privilege_env.tasks.loader import load_tasks
-print(len(load_tasks()), 'tasks')"
+print(len(load_tasks()), 'tasks')"          # 260 (development default)
 ```
 
-Run the quality gates:
+```bash
+source scripts/benchmark_env.sh
+LP_RL_SANDBOX=local .venv/bin/python -c "
+from least_privilege_env.tasks.loader import load_tasks
+print(len(load_tasks()), 'tasks')"          # 2000 (the benchmark)
+```
+
+Run the quality gates (needs rootless Docker; ~8 minutes):
 
 ```bash
 bash scripts/_run_all_gates.sh
 ```
 
-Training and full evaluation need a GPU, rootless Docker, and a served vLLM
+Training and full evaluation need two GPUs, rootless Docker, and a served vLLM
 endpoint — see [docs/REPRODUCE.md](docs/REPRODUCE.md).
 
 ## Reward
@@ -164,12 +215,12 @@ Measured profile for a 32 GB trainer GPU: `max_completion_length=4096`,
 `num_generations=8`, `--cuda-empty-cache-steps 1`. The binding constraint is
 allocator *reserved* memory rather than live allocation.
 
-## External benchmarks
+## Scope of this repository
 
-Transfer is evaluated against three third-party benchmarks. **Their data is not
-redistributed here** — `scripts/evaluate_*.py` are adapters that run against
-copies you fetch yourself. See
-[docs/EXTERNAL_BENCHMARKS.md](docs/EXTERNAL_BENCHMARKS.md).
+This repo contains the environment, the benchmark, the evaluation set, and the
+code to train and evaluate against them. It does not include our transfer
+evaluations against third-party benchmarks (ToolPrivBench, FORTIS, MetaTool),
+because those depend on corpora we cannot redistribute.
 
 ## Status
 
