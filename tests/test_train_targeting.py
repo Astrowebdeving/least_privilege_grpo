@@ -48,6 +48,15 @@ def test_adapter_path_flag_is_parsed() -> None:
     assert args.adapter_path == "logs/artifacts/pilot/checkpoint-32"
 
 
+def test_shuffle_dataset_defaults_to_historical_true() -> None:
+    assert parse_args([]).shuffle_dataset is True
+
+
+def test_no_shuffle_dataset_is_parsed() -> None:
+    assert parse_args(["--no-shuffle-dataset"]).shuffle_dataset is False
+
+
+
 def test_adapter_path_rejects_full_finetune() -> None:
     args = parse_args(["--adapter-path", "checkpoint-32", "--full-finetune"])
     with pytest.raises(ValueError, match="adapter-path"):

@@ -226,6 +226,6 @@ prompt-injection resistance.
   exit code or a single printed value) is trivially guessable without running
   the check. This change is benchmark-visible: rerun base and candidates.
 
-See also the consolidated results history (not published) (Phase 1) for the worked example this
-came from, and `docs/REPRODUCE.md` ("Frozen Checkpoint Eval Notes") for the
+See also `docs/past_results_and_methods.md` (Phase 1) for the worked example this
+came from, and `docs/training_runbook.md` ("Frozen Checkpoint Eval Notes") for the
 adapter-load and vLLM-readiness pitfalls on the eval-infrastructure side.

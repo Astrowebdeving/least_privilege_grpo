@@ -38,7 +38,7 @@ human-authored environments.
 The pitfalls the frozen evals exposed — and the checks to run when adding or
 auditing tasks — live in `docs/task_design_pitfalls.md` (what tends to go wrong
 plus what to verify), with the worked base-vs-checkpoint example summarized in
-the consolidated results history (not published) (Phase 1). Treat them as checks, not a rigid
+`docs/past_results_and_methods.md` (Phase 1). Treat them as checks, not a rigid
 template.
 
 TODO(lp-rl): add a "policy-realism" report to the rollout analyzer that flags any
@@ -67,6 +67,6 @@ contrasts. Future additions should follow `docs/task_authoring_standard.md`
 and replace saturated templates with independently authored variants.
 
 The first generation pass is `scripts/build_expanded_tasks.py`; its result and
-limitations are in the consolidated results history (not published) (Phase 3). The next ingestion step
+limitations are in `docs/past_results_and_methods.md` (Phase 3). The next ingestion step
 should replace saturated template variants with independently authored or
 recording-derived tasks, not merely increase the count.

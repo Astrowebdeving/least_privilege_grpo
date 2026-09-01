@@ -18,7 +18,7 @@
 #
 # Thermal guard (OPERATIONAL protection only, enforced at safe boundaries —
 # between seeds and before each trainer launch, never mid-step; see
-# docs/task_authoring_standard.md §10). All default OFF so quick tests and the
+# docs/task_expansion_2000_plan.md §10). All default OFF so quick tests and the
 # historical 200-step runs behave exactly as before; the week-long campaign sets
 # them explicitly.
 #   MULTISEED_COOLDOWN_SEC    fixed rest BETWEEN seeds (default 0; campaign ~7200)
@@ -32,11 +32,11 @@
 # RuntimeMaxSec to include them):
 #   OUT=logs/artifacts/multiseed_$(date +%F_%H%M%S)
 #   systemd-run --user --unit=lp-rl-multiseed --collect \
-#     --property=WorkingDirectory=<repo> \
+#     --property=WorkingDirectory="$HOME/projects/least_privilege_rl" \
 #     --property=RuntimeMaxSec=57600 --property=KillSignal=SIGTERM \
 #     --property=TimeoutStopSec=180 \
 #     --setenv=MULTISEED_OUT_ROOT="$OUT" \
-#     bash <repo>/scripts/run_multiseed.sh
+#     bash "$HOME/projects/least_privilege_rl/scripts/run_multiseed.sh"
 set -uo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/lib/lp_common.sh"  # cd-to-root + shared helpers
 lp_pin_path

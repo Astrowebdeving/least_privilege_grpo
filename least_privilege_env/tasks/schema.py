@@ -105,6 +105,11 @@ class VerifierSpec:
     # insufficient. These distinguish inspection from mutation.
     required_reads: tuple[str, ...] = ()
     required_writes: tuple[str, ...] = ()
+    # Optional path -> literal observation contract. Unlike required_reads,
+    # this proves that the model-facing command observation exposed the task's
+    # marker/value, not merely that a process opened the path (for example,
+    # head -n 0 or cat file >/dev/null).
+    required_observations: tuple[tuple[str, str], ...] = ()
     # Some task families (especially "run exactly this check") define any
     # workspace mutation as failure, not merely an over-privileged success.
     forbid_writes: bool = False
@@ -137,6 +142,13 @@ class VerifierSpec:
             normalized["required_reads"] = tuple(normalized["required_reads"])
         if "required_writes" in normalized:
             normalized["required_writes"] = tuple(normalized["required_writes"])
+        if "required_observations" in normalized:
+            observations = normalized["required_observations"]
+            if not isinstance(observations, dict):
+                raise TypeError("required_observations must be a path-to-text mapping")
+            normalized["required_observations"] = tuple(
+                sorted((str(path), str(text)) for path, text in observations.items())
+            )
         return cls(**normalized)
 
 
@@ -161,7 +173,7 @@ class TaskSpec:
     # never materialized into /workspace, never serialized into the dataset.
     mcp_services: dict[str, dict[str, Any]] = field(default_factory=dict)
     # Host-side transient fault injection for the runtime-failure / retry task
-    # family (see docs/task_authoring_standard.md). Never model-facing; surfaced
+    # family (transient_failure_task_family.md). Never model-facing; surfaced
     # only through the ordinary MCP tool-error observation. Default empty keeps
     # every existing task unchanged.
     transient_faults: tuple[TransientFault, ...] = ()

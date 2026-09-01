@@ -1,0 +1,7 @@
+started_at=2026-08-19T12:01:22-05:00
+catalog=data/continuation400_v3.json sha256=f28a3653e122d37b98197345097f8124c53e1196d4fa9344eb4ea41db6a52eaa
+heldout=data/continuation_transient_heldout_v4.json sha256=46f6ee559f32435d6450ec40a84ab038d7b83bc7eeb97cf69cf4546599cd3e5a
+arms=A0 A2 B1 seeds=3 4 5 steps=400 generations=8
+matched: base checkpoint, catalog, task order (shuffle_dataset=false), seeds, sampling
+varied: LP_RL_REWARD_ARM only
+evaluation_scorer=A0 for every arm (arm-neutral outcomes)

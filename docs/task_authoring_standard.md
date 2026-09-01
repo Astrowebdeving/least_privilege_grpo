@@ -135,9 +135,40 @@ the required effect.
 - Search output is not automatically evidence. Supported grep reads already
   register matched files; crediting arbitrary listing output creates
   `ls`-and-guess reward hacking.
+- For inspection tasks, keep `required_evidence` and
+  `verifier.required_reads` aligned with every path access needed to justify
+  the answer. The host evidence helper can credit a path touched by either a
+  read or a write; `required_reads` is the separate proof of read access.
+- Read access alone does not prove that useful content reached the model:
+  `head -n 0 file` and `cat file >/dev/null` may open the path while exposing
+  no value. When the answer depends on observed content, add
+  `verifier.required_observations` as a path-to-literal mapping. Each literal
+  must appear in the model-facing observation of the same action that audited
+  the path as read. Use short fixture markers/values that survive F0 clipping;
+  represent an unavailable source with an explicit marker rather than an empty
+  file when content observation must be proven.
+- Read-only inspection tasks set `forbid_writes: true`. Otherwise a policy can
+  replace an omitted read with a write to the same path and manufacture
+
+- Any explicit unavailable/sentinel marker is part of the task's public data
+  contract. The prompt must define that literal as absence; otherwise a model
+  that returns the marker is following the visible state, and uniform failure
+  is a benchmark defect rather than useful RL signal. Include both
+  primary-present and marker-triggered fallback counterfactuals.
+  evidence while changing the object it was supposed to inspect.
+- Conditional-fallback families require both counterfactual states: one where
+  the primary source is unavailable and the peer fallback is necessary, and
+  one where the primary is already sufficient and reading the peer is
+  unnecessary. At least one held-out surface must state the outcome without
+  procedural retry/fallback cues.
 
 An oracle must satisfy the evidence contract in both local and Docker
 sandboxes.
+
+Any evidence-contract correction is a versioned benchmark change. Preserve the
+historical catalog, rebuild train and held-out variants together, and add
+adversarial regressions for mirror-only, write-as-read, zero-content-read,
+suppressed-output-read, and unnecessary-fallback trajectories before training.
 
 ## 6. Verifier selection
 

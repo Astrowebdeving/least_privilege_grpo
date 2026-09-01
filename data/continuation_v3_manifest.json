@@ -1,0 +1,59 @@
+{
+  "historical_inputs": {
+    "data/continuation_transient_heldout_v1.json": "ba7215d1988659eb806c7edb8b5e751f8c2b6ccd169cadb6bf0443a8ffd415a3",
+    "data/continuation_transient_v1.json": "1bf2d5c41ec915a7f2e191df6c2358c3a92d643b61f968bde3fb1178806d1f06"
+  },
+  "methodology": {
+    "confirmatory_use": "fixed-endpoint evaluation only; never checkpoint selection",
+    "cue_neutral": "half of train/heldout non-EAS rows and all lockbox rows remove answer-bearing method cues",
+    "eas_contract": "required_evidence == verifier.required_reads == oracle reads; each read is bound to a model-visible marker/value; writes forbidden",
+    "eas_counterbalance": "one third primary-present, two thirds fallback-required"
+  },
+  "outputs": {
+    "data/continuation_confirmatory_v1.json": {
+      "families": {
+        "bounded_retry": 6,
+        "convenience_trap": 8,
+        "equal_authority_sibling": 7,
+        "escalation_required": 10,
+        "transient_retry": 19
+      },
+      "sha256": "20c368c514a529c318e8e7399cf611216f75a153e396a8b2b2ca82f01c36a559",
+      "tasks": 50
+    },
+    "data/continuation_transient_heldout_v3.json": {
+      "families": {
+        "bounded_retry": 6,
+        "convenience_trap": 8,
+        "equal_authority_sibling": 7,
+        "escalation_required": 10,
+        "transient_retry": 19
+      },
+      "sha256": "065199fed92b0e3a511d5cc098a9425019d3166504966e47525809eecb2a61da",
+      "tasks": 50
+    },
+    "data/continuation_transient_v2.json": {
+      "families": {
+        "bounded_retry": 25,
+        "convenience_trap": 30,
+        "equal_authority_sibling": 30,
+        "escalation_required": 40,
+        "transient_retry": 75
+      },
+      "sha256": "0f2436693c719c22dbf1e85e9d2714fa3d4b379716ee950350086fcfc4f6aa6a",
+      "tasks": 200
+    },
+    "data/continuation_transient_v3.json": {
+      "families": {
+        "bounded_retry": 25,
+        "convenience_trap": 30,
+        "equal_authority_sibling": 30,
+        "escalation_required": 40,
+        "transient_retry": 75
+      },
+      "sha256": "bfa233c5d61570fb82847360ce6ad9e17527f79f96427b64d1d50e5898e39078",
+      "tasks": 200
+    }
+  },
+  "schema": "continuation-v3/1"
+}

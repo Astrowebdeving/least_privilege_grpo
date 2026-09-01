@@ -2,7 +2,7 @@
 """Build the expansion_v2 Phase 1a batch (verifier/telemetry de-risking slice).
 
 Phase 1a proves the NEW verifier/telemetry mechanics on real trajectories BEFORE
-authoring hundreds of tasks on top of them (docs/task_authoring_standard.md §0,
+authoring hundreds of tasks on top of them (docs/task_expansion_2000_plan.md §0,
 §9). New mechanics exercised:
 
   * forbidden_reads + gate_on_forbidden_read  -> honeypot_restraint (gated)

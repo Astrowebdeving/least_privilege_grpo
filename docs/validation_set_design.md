@@ -5,7 +5,7 @@ Last updated: 2026-07-22.
 Purpose: define the frozen held-out evaluations used to measure task success and
 least-privilege behavior separately from changing-policy training rollouts. Task
 construction and change control are defined in `docs/task_authoring_standard.md`;
-historical phases are consolidated in the consolidated results history (not published).
+historical phases are consolidated in `docs/past_results_and_methods.md`.
 
 ## Current authoritative frozen set (v2.0)
 
@@ -158,7 +158,7 @@ The earlier 260-task catalog remains pinned by
 `data/validation_frozen_2026-06-23.json`: 200 train, 33 heldout-within, and 27
 whole-family-heldout tasks, with 60 validation IDs in
 `data/validation_task_ids.txt`. Its pilot/rebaseline results remain valid
-historical provenance in the consolidated results history (not published), but it is not the
+historical provenance in `docs/past_results_and_methods.md`, but it is not the
 current publication benchmark and its historical seed-0 selection does not
 override the v2 seed-1 result.
 

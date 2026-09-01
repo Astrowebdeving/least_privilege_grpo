@@ -1,0 +1,124 @@
+{
+  "composition": {
+    "corrective": 200,
+    "replay": 200
+  },
+  "endpoint": {
+    "checkpoint_selection": "none; step 400 is the fixed endpoint",
+    "intermediate_checkpoints": "diagnostic and safety-stop only",
+    "training_steps": 400
+  },
+  "output_sha256": "f28a3653e122d37b98197345097f8124c53e1196d4fa9344eb4ea41db6a52eaa",
+  "repair": {
+    "ordering": "the launcher disables TRL dataset shuffling so the existing C/R catalog alternation is the executed curriculum",
+    "precheck": "overall and corrective variance remain mandatory; replay requires some current variance plus high parent success, while a low-variance family may pass only when parent success demonstrates saturation",
+    "sentinel_semantics": "literal unavailability markers are disclosed in every EAS prompt"
+  },
+  "replay_weights": {
+    "escalation_required": 30,
+    "honeypot_restraint": 15,
+    "mcp_stub": 12,
+    "multi_tool_workflow": 15,
+    "noisy_error_recovery": 25,
+    "patch_proposal_only": 25,
+    "prompt_injection": 10,
+    "run_the_right_test": 30,
+    "scoped_cleanup": 20,
+    "scoped_write": 10,
+    "structured_output": 8
+  },
+  "schema": "continuation400/v3",
+  "seed": "2026-07-31-continuation400-v2",
+  "selected_replay_signal": {
+    "escalation_required": {
+      "historical_nonzero_variance": 4,
+      "historical_std_gt_0_1": 4,
+      "reward_std_max": 0.24803918541230538,
+      "reward_std_min": 0.0,
+      "slots": 30
+    },
+    "honeypot_restraint": {
+      "historical_nonzero_variance": 2,
+      "historical_std_gt_0_1": 2,
+      "reward_std_max": 0.2673311220554847,
+      "reward_std_min": 0.0,
+      "slots": 15
+    },
+    "mcp_stub": {
+      "historical_nonzero_variance": 12,
+      "historical_std_gt_0_1": 12,
+      "reward_std_max": 0.398222293321154,
+      "reward_std_min": 0.2172630145371683,
+      "slots": 12
+    },
+    "multi_tool_workflow": {
+      "historical_nonzero_variance": 8,
+      "historical_std_gt_0_1": 8,
+      "reward_std_max": 0.35440249603812723,
+      "reward_std_min": 0.0,
+      "slots": 15
+    },
+    "noisy_error_recovery": {
+      "historical_nonzero_variance": 12,
+      "historical_std_gt_0_1": 10,
+      "reward_std_max": 0.39687500000000003,
+      "reward_std_min": 0.0,
+      "slots": 25
+    },
+    "patch_proposal_only": {
+      "historical_nonzero_variance": 21,
+      "historical_std_gt_0_1": 13,
+      "reward_std_max": 0.3872983346207417,
+      "reward_std_min": 0.0,
+      "slots": 25
+    },
+    "prompt_injection": {
+      "historical_nonzero_variance": 10,
+      "historical_std_gt_0_1": 9,
+      "reward_std_max": 0.5566605638660919,
+      "reward_std_min": 0.002755990949025642,
+      "slots": 10
+    },
+    "run_the_right_test": {
+      "historical_nonzero_variance": 4,
+      "historical_std_gt_0_1": 4,
+      "reward_std_max": 0.2904737509655563,
+      "reward_std_min": 0.0,
+      "slots": 30
+    },
+    "scoped_cleanup": {
+      "historical_nonzero_variance": 18,
+      "historical_std_gt_0_1": 10,
+      "reward_std_max": 0.49260445119250396,
+      "reward_std_min": 0.0,
+      "slots": 20
+    },
+    "scoped_write": {
+      "historical_nonzero_variance": 10,
+      "historical_std_gt_0_1": 10,
+      "reward_std_max": 0.4439579949126174,
+      "reward_std_min": 0.19843134832984433,
+      "slots": 10
+    },
+    "structured_output": {
+      "historical_nonzero_variance": 8,
+      "historical_std_gt_0_1": 8,
+      "reward_std_max": 0.4630920430488544,
+      "reward_std_min": 0.19843134832984433,
+      "slots": 8
+    }
+  },
+  "selected_replay_totals": {
+    "historical_nonzero_variance": 109,
+    "historical_std_gt_0_1": 90,
+    "tasks": 200
+  },
+  "selection_rule": "within each damage-weighted family, rank original train rows by historical seed-1 reward std, then reward range, then pinned hash",
+  "sources": {
+    "catalog": "data/expansion_v2_microslice.json",
+    "confirmatory_lockbox": "data/continuation_confirmatory_v2.json",
+    "corrective": "data/continuation_transient_v4.json",
+    "heldout_development": "data/continuation_transient_heldout_v4.json",
+    "replay_variance": "data/continuation_replay_variance_seed1.json"
+  }
+}

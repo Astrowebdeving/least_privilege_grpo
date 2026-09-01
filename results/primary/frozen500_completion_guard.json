@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "policies": [
+    "base",
+    "seed-1"
+  ],
+  "episodes_per_policy": 2896,
+  "total_episodes": 5792,
+  "assignment_sha256": "ed1346fba38f6c9278144786b58b66c77b21d782f5fea968b49cb1413da02e77",
+  "post_terminal_calls": 0,
+  "identical_membership": true,
+  "recovery": "seed-1 safety tier rerun in full after external WSL termination"
+}

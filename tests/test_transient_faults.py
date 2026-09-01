@@ -1,6 +1,6 @@
 """Regressions for deterministic transient-fault injection on fake MCP tools.
 
-The transient_failure task family (docs/task_authoring_standard.md) needs
+The transient_failure task family (docs/transient_failure_task_family.md) needs
 a "standard tool fails once at runtime, retry succeeds" mechanism that is
 deterministic, F0-safe, and identical across the local and Docker backends
 (MCP state is host-side). These tests pin that contract before any task is

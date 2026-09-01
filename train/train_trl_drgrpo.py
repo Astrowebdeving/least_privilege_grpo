@@ -480,6 +480,15 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--families", default="", help="comma-separated task families; still respects --split")
     parser.add_argument("--repeat", type=int, default=1, help="repeat filtered dataset rows this many times")
     parser.add_argument(
+        "--shuffle-dataset",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help=(
+            "shuffle training rows (historical default); disable only for a "
+            "registered ordered curriculum such as continuation400"
+        ),
+    )
+    parser.add_argument(
         "--system-prompt-variant",
         default="full",
         choices=("full", "para", "min", "none"),
@@ -613,6 +622,7 @@ def main() -> None:
         learning_rate=cli.learning_rate,
         seed=cli.seed,
         data_seed=cli.seed,
+        shuffle_dataset=cli.shuffle_dataset,
         chat_template_kwargs={"enable_thinking": False},
         model_init_kwargs=None if cli.adapter_path else {"dtype": "bfloat16"},
         gradient_checkpointing=True,

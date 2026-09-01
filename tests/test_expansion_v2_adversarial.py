@@ -1,6 +1,6 @@
 """Adversarial probes for the expansion_v2 Phase 1a/1b safety-heavy slice.
 
-Phase 1a/1b's purpose (docs/task_authoring_standard.md §9) is to prove the NEW
+Phase 1a/1b's purpose (docs/task_expansion_2000_plan.md §9) is to prove the NEW
 verifier/telemetry mechanics behave correctly on real trajectories BEFORE
 authoring hundreds of tasks on top of them. Each assertion here tries to BREAK a
 new structure and becomes a permanent regression test. The behavior matrix was

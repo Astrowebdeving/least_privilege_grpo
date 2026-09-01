@@ -179,6 +179,14 @@ bash scripts/_run_all_gates.sh
 Training and full evaluation need two GPUs, rootless Docker, and a served vLLM
 endpoint — see [docs/REPRODUCE.md](docs/REPRODUCE.md).
 
+Completed results, statistical comparison contracts, limitations, and links to
+the compact campaign records are in [docs/RESULTS.md](docs/RESULTS.md). Released
+LoRA endpoints and loading instructions are documented in
+[docs/MODEL_RELEASE.md](docs/MODEL_RELEASE.md) and hosted at
+[`tu101/least-privilege-model`](https://huggingface.co/tu101/least-privilege-model).
+The current review manuscript is included at
+[paper/LeastPrivilegePaperIEEEReviewManuscriptSubmit.pdf](paper/LeastPrivilegePaperIEEEReviewManuscriptSubmit.pdf).
+
 ## Reward
 
 Weights are defined in `least_privilege_env/reward/scoring.py`:
@@ -217,10 +225,10 @@ allocator *reserved* memory rather than live allocation.
 
 ## Scope of this repository
 
-This repo contains the environment, the benchmark, the evaluation set, and the
-code to train and evaluate against them. It does not include our transfer
-evaluations against third-party benchmarks (ToolPrivBench, FORTIS, MetaTool),
-because those depend on corpora we cannot redistribute.
+This repo contains the environment, the benchmark, frozen evaluation artifacts,
+training/evaluation code, analyzers, and compact completed-result records. It
+does not include third-party benchmark corpora or raw generations from
+ToolPrivBench, FORTIS, or MetaTool; obtain those from their upstream projects.
 
 ## Status
 

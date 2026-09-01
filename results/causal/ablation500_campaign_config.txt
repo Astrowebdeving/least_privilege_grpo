@@ -1,0 +1,7 @@
+started_at=2026-08-04T15:58:49-05:00
+catalog=data/ablation500_v1.json sha256=06528ecedab2f2ce76ff1d3f8658a4e2b9569882c43ce19f02101adbe8bc852e
+heldout=data/ablation500_heldout_v1.json sha256=ea27359c85e875abb50074a64d6370bd43f818cb180cf9b914f2255e78d665cb
+arms=A0 B1 A2 A4 seeds=0 1 2 steps=400 generations=8
+matched: base checkpoint, catalog, task order (shuffle_dataset=false), seeds, sampling
+varied: LP_RL_REWARD_ARM only
+evaluation_scorer=A0 for every arm (arm-neutral outcomes)

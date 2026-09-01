@@ -1,0 +1,30 @@
+== per cell (control scorer A0, gating on, for every arm)
+  cell          n  success  evidence  priv_pen   reward
+  A0-s1       400   0.9050    0.9648    0.4978   0.7305
+  A0-s2       400   0.8800    0.9317    0.0534   0.7100
+  A0-s3       400   0.8325    0.9025    0.1364   0.6782
+  A0-s4       400   0.9125    0.9732    0.0923   0.7419
+  A0-s5       400   0.8425    0.9217    0.0532   0.6843
+  A2-s1       400   0.8825    0.9483    0.1906   0.7166
+  A2-s2       400   0.8850    0.9538    0.4353   0.7160
+  A2-s3       400   0.8075    0.8830    0.0683   0.6592
+  A2-s4       400   0.8750    0.9457    0.6935   0.7076
+  A2-s5       400   0.8900    0.9420    0.2107   0.7213
+  B1-s1       400   0.8625    0.9003    0.1549   0.6954
+  B1-s2       400   0.9200    0.9517    0.1887   0.7410
+  B1-s3       400   0.8875    0.9158    0.6650   0.7116
+  B1-s4       400   0.8850    0.9490    0.5026   0.7184
+  B1-s5       400   0.9050    0.9497    0.2032   0.7319
+
+== arm means
+  A0  success=0.8745 evidence=0.9388 priv_pen=0.1666 reward=0.7090
+  A2  success=0.8680 evidence=0.9346 priv_pen=0.3197 reward=0.7041
+  B1  success=0.8920 evidence=0.9333 priv_pen=0.3429 reward=0.7197
+
+== does the coarse penalty cost task success? (seed-level exact permutation)
+  A0 vs A2: success diff=0.0065  p=0.802  (252 perms, floor 0.008)
+  A0 vs B1: success diff=0.0175  p=0.381  (252 perms, floor 0.008)
+  A2 vs B1: success diff=0.0240  p=0.246  (252 perms, floor 0.008)
+
+  With 5 seeds/arm the exact two-sided permutation floor is 0.008 (252 allocations).
+  The design can attain p<0.05, but seed-level spread remains the relevant training uncertainty.

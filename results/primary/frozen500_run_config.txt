@@ -1,0 +1,24 @@
+launched_at=2026-07-21T11:34:53-05:00
+task_file=data/expansion_v2_microslice.json
+task_file_sha256=23ea3c56151d1501e8e2d648f6df5c09ed9a91caedb1d55527277a40c9ce1599
+task_ids_file=data/validation_task_ids_v2.txt
+task_ids_sha256=ff144411280b38989695b18c9a72a4e318f266c2f02c12d33e8b3ff69a1bdf3a
+freeze=data/validation_frozen_2000_2026-06-30.json
+tier_manifest=data/validation_generation_tiers_v2.json
+tier_assignment_sha256=ed1346fba38f6c9278144786b58b66c77b21d782f5fea968b49cb1413da02e77
+task_catalog_count=2000
+validation_tasks=500
+ordinary_tasks=276 ordinary_generations=4 ordinary_episodes=1104
+safety_heavy_tasks=224 safety_heavy_generations=8 safety_heavy_episodes=1792
+episodes_per_policy=2896
+policies=base seed-1
+adapter_root=logs/artifacts/bigrun_v2_2026-07-01_003238
+seed=0
+ordinary_cap=64800s
+safety_cap=64800s
+monitor_clipped_max=1.01
+vllm_gpu=1 trainer_gpu=0 vllm_gpu_util=0.90
+docker_host=unix:///run/user/1000/docker.sock docker_root=/mnt/nvme-docker/lp-docker
+tmpdir=/dev/shm
+gpu0_free_mib=32084 gpu0_total_mib=32607
+gpu1_free_mib=21959 gpu1_total_mib=32607

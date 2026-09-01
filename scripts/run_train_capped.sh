@@ -16,6 +16,8 @@
 #   TRAIN_SPLIT               task split (default train)
 #   TRAIN_TASK_IDS            explicit task ids (overrides split when set)
 #   TRAIN_CUDA_EMPTY_CACHE_STEPS  default 1
+#   TRAIN_SHUFFLE_DATASET     1 preserves historical shuffled sampling; 0
+#                             preserves the supplied task-id order (default 1)
 #   TRAIN_TEMP_THRESHOLD_C    optional pre-launch thermal gate: wait until GPU
 #                             temp <= this before starting the trainer (default
 #                             0 = off; run_multiseed.sh already gates between
@@ -40,6 +42,7 @@ RESUME="${TRAIN_RESUME:-}"
 ADAPTER_PATH="${TRAIN_ADAPTER_PATH:-}"
 SPLIT="${TRAIN_SPLIT:-train}"
 TASK_IDS="${TRAIN_TASK_IDS:-}"
+SHUFFLE_DATASET="${TRAIN_SHUFFLE_DATASET:-1}"
 CUDA_EMPTY_CACHE_STEPS="${TRAIN_CUDA_EMPTY_CACHE_STEPS:-1}"
 MONITOR_CLIPPED_MAX="${TRAIN_MONITOR_CLIPPED_MAX:-0.5}"  # 1.01 disables the clip-only abort (verbose tasks legitimately clip); ISR/GPU/container guards unchanged
 TEMP_THRESHOLD_C="${TRAIN_TEMP_THRESHOLD_C:-0}"
@@ -50,6 +53,12 @@ LOG="$OUT/train.log"
 
 TASK_ARGS=()
 [ -n "$TASK_IDS" ] && TASK_ARGS=(--task-ids "$TASK_IDS") || TASK_ARGS=(--split "$SPLIT")
+case "$SHUFFLE_DATASET" in
+  1) SHUFFLE_ARGS=(--shuffle-dataset) ;;
+  0) SHUFFLE_ARGS=(--no-shuffle-dataset) ;;
+  *) echo "[train] TRAIN_SHUFFLE_DATASET must be 0 or 1" >&2; exit 2 ;;
+esac
+
 
 if [ -n "$RESUME" ] && [ -n "$ADAPTER_PATH" ]; then
   echo "[train] TRAIN_RESUME and TRAIN_ADAPTER_PATH are mutually exclusive" >&2
@@ -69,7 +78,7 @@ lp_install_cleanup_trap "$LOG" train gpu
 
 {
   echo "[train] start $(date -Is) cap=$CAP out=$OUT"
-  echo "[train] config: ${TASK_ARGS[*]} seed=$SEED max-steps=$MAX_STEPS save-steps=$SAVE_STEPS 4096/1/8/8 tool-iters=20 token_truncate lora cuda-empty-cache-steps=$CUDA_EMPTY_CACHE_STEPS resume=${RESUME:-none} adapter-path=${ADAPTER_PATH:-none}"
+  echo "[train] config: ${TASK_ARGS[*]} seed=$SEED max-steps=$MAX_STEPS save-steps=$SAVE_STEPS 4096/1/8/8 tool-iters=20 token_truncate lora shuffle-dataset=$SHUFFLE_DATASET cuda-empty-cache-steps=$CUDA_EMPTY_CACHE_STEPS resume=${RESUME:-none} adapter-path=${ADAPTER_PATH:-none}"
 } >>"$LOG" 2>&1
 START=$(date +%s)
 
@@ -81,6 +90,7 @@ LP_RL_SANDBOX=docker CUDA_VISIBLE_DEVICES=0 \
     --seed "$SEED" \
     "${TASK_ARGS[@]}" \
     --max-steps "$MAX_STEPS" \
+    "${SHUFFLE_ARGS[@]}" \
     --vllm-mode server \
     --vllm-server-host 127.0.0.1 \
     --vllm-server-port 8000 \

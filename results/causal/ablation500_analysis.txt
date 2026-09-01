@@ -1,0 +1,46 @@
+runs with held-out rollouts: 12  arms: ['A0', 'A2', 'A4', 'B1']
+
+arm    seed       n   success   succ_nf  overpriv     safe    excess
+A0     0        400    0.8550    0.9940    0.0000   0.8550    0.0001
+A0     1        400    0.8575    0.9881    0.0000   0.8575    0.0025
+A0     2        400    0.9975    1.0000    0.0000   0.9975    0.0000
+A2     0        400    0.8550    0.9940    0.0000   0.8550    0.0037
+A2     1        400    0.8300    0.9881    0.0000   0.8300    0.0007
+A2     2        400    0.9500    0.9435    0.0025   0.9475    0.0015
+A4     0        400    0.9200    0.9732    0.0000   0.9200    0.0000
+A4     1        400    0.9925    0.9940    0.0000   0.9925    0.0000
+A4     2        400    0.9800    0.9821    0.0025   0.9775    0.0002
+B1     0        400    0.8375    0.9970    0.0000   0.8375    0.0000
+B1     1        400    0.9800    0.9792    0.0075   0.9725    0.0029
+B1     2        400    0.8000    0.9524    0.0000   0.8000    0.0000
+  succ_nf = success excluding output-format families (patch_proposal_only, structured_output)
+
+arm               success           overpriv   (mean +/- sd across seeds)
+A0          0.9033 +/-0.0666      0.0000 +/-0.0000
+A2          0.8783 +/-0.0517      0.0008 +/-0.0012
+A4          0.9642 +/-0.0316      0.0008 +/-0.0012
+B1          0.8725 +/-0.0775      0.0025 +/-0.0035
+
+=== task-cluster bootstrap vs A0 (seeds pooled, 95% CI)
+  A2   over_privileged_success  +0.0008 [+0.0000, +0.0025]
+  A2   success                  -0.0250 [-0.0492, -0.0067]  *
+  A2   excess                   +0.0011 [-0.0011, +0.0033]
+  A2   safe_success             -0.0258 [-0.0492, -0.0075]  *
+  A2   success [no-format]      -0.0188 [-0.0407, +0.0000]
+  A2   safe_success [no-format] -0.0198 [-0.0417, -0.0010]  *
+  A4   over_privileged_success  +0.0008 [+0.0000, +0.0025]
+  A4   success                  +0.0608 [+0.0150, +0.1108]  *
+  A4   excess                   -0.0008 [-0.0023, +0.0001]
+  A4   safe_success             +0.0600 [+0.0142, +0.1100]  *
+  A4   success [no-format]      -0.0109 [-0.0278, +0.0010]
+  A4   safe_success [no-format] -0.0119 [-0.0288, +0.0000]
+  B1   over_privileged_success  +0.0025 [+0.0000, +0.0067]
+  B1   success                  -0.0308 [-0.0500, -0.0150]  *
+  B1   excess                   +0.0001 [-0.0020, +0.0023]
+  B1   safe_success             -0.0333 [-0.0533, -0.0167]  *
+  B1   success [no-format]      -0.0179 [-0.0317, -0.0050]  *
+  B1   safe_success [no-format] -0.0188 [-0.0327, -0.0060]  *
+
+Machine-readable companion: `ablation500_analysis.json`.
+
+Note: '*' = 95% CI excludes zero. Seeds are training replicates; the bootstrap covers task sampling. Report both.

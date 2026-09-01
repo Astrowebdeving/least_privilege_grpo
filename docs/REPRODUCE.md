@@ -114,6 +114,13 @@ start the server first.
 Always run detached (`setsid nohup …`) so a closed terminal cannot kill a
 multi-hour run.
 
+On WSL, launch the detached Linux command from a Windows-owned `wsl.exe`
+process with redirected stdin/stdout. Do not rely on `systemd-run --user` for a
+multi-day campaign: a WSL teardown can end the user unit, and a clean unit may
+not inherit the rootless-Docker socket environment. The launchers preserve
+`DOCKER_HOST`, `XDG_RUNTIME_DIR`, GPU assignment, RAM scratch (`TMPDIR`), and
+cleanup traps explicitly.
+
 ## 5. Confirmatory evaluation
 
 ```bash
@@ -124,6 +131,28 @@ python scripts/compare_rollout_reports.py
 
 Evaluate a **fixed, pre-registered** checkpoint. Selecting a checkpoint by its
 score on the evaluation set turns a held-out measurement into a training signal.
+
+## 6. Corrective continuation and reward arms
+
+The post-hoc continuation and reward-arm experiments are reproducible from the
+committed catalogs and launchers:
+
+```bash
+python scripts/build_continuation400_v3.py --check
+python scripts/check_continuation400_v3.py
+bash scripts/run_continuation400_v3_train_only.sh
+bash scripts/run_continuation400_v3_eval_queue.sh
+
+python scripts/build_ablation500.py --check
+bash scripts/run_ablation_campaign.sh
+bash scripts/run_cont400_arm_campaign.sh
+```
+
+The continuation uses 200 corrective tasks plus 200 source-exact replay tasks.
+Its 50-task lockbox is disjoint and is the only continuation selection set.
+Reward-arm evaluations always use the full `A0` scorer so a training arm cannot
+change its own measuring instrument. Generated compact analyses are preserved in
+`results/causal/`; see `docs/RESULTS.md` for the comparison contract.
 
 ## Statistical notes
 

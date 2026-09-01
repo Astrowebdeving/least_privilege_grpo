@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "stages": [
+    "toolpriv_seed1_privilege_aware",
+    "internal_p_none",
+    "internal_p_para_skipped",
+    "internal_p_min",
+    "fortis_p_min",
+    "metatool_p_min"
+  ]
+}

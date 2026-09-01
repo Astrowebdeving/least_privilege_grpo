@@ -84,12 +84,11 @@ if [ "$DRY_RUN" = "1" ]; then
   exit 0
 fi
 
-# Refuse resource conflicts before touching project services. Set
-# CONFLICTING_UNITS to any systemd --user units that may legitimately own the
-# generation GPU on your machine; empty by default.
-for unit in ${CONFLICTING_UNITS:-}; do
+# Refuse resource conflicts before touching project services. These are the
+# publication external-benchmark units that may legitimately own GPU0.
+for unit in lp-fortis-suite.service lp-metatool-suite.service lp-toolprivbench-suite.service; do
   if systemctl --user is-active --quiet "$unit"; then
-    fail "conflicting unit is active: $unit"
+    fail "conflicting project unit is active: $unit"
   fi
 done
 
@@ -97,17 +96,10 @@ done
 scripts/stop_train_vllm.sh >/dev/null 2>&1 || true
 scripts/prune_lp_containers.sh >/dev/null 2>&1 || true
 
-# Storage policy, enforced fail-closed because both mistakes are silent and
-# expensive: a Docker root on spinning disk collapses episode throughput, and a
-# disk-backed TMPDIR makes per-command workspace materialization the dominant
-# cost. Override for your hardware; the defaults are ours.
-EXPECTED_DOCKER_ROOT="${EXPECTED_DOCKER_ROOT:-/mnt/nvme-docker/lp-docker}"
-EXPECTED_TMPDIR="${EXPECTED_TMPDIR:-/dev/shm}"
-
 "$PY" scripts/check_rootless_docker.py || fail "rootless Docker preflight failed"
 DOCKER_ROOT="$(docker info --format '{{.DockerRootDir}}')" || fail "docker info failed"
-[ "$DOCKER_ROOT" = "$EXPECTED_DOCKER_ROOT" ] || fail "Docker root is $DOCKER_ROOT, expected $EXPECTED_DOCKER_ROOT (set EXPECTED_DOCKER_ROOT to override)"
-[ "$TMPDIR" = "$EXPECTED_TMPDIR" ] || fail "TMPDIR is $TMPDIR, expected RAM scratch $EXPECTED_TMPDIR (set EXPECTED_TMPDIR to override)"
+[ "$DOCKER_ROOT" = "/mnt/nvme-docker/lp-docker" ] || fail "Docker root is $DOCKER_ROOT, expected /mnt/nvme-docker/lp-docker"
+[ "$TMPDIR" = "/dev/shm" ] || fail "TMPDIR is $TMPDIR, expected RAM scratch /dev/shm"
 [ -d "$TMPDIR" ] && [ -w "$TMPDIR" ] || fail "RAM scratch is not writable: $TMPDIR"
 
 mapfile -t GPU_ROWS < <(nvidia-smi --query-gpu=index,memory.free,memory.total --format=csv,noheader,nounits)

@@ -25,7 +25,7 @@ lp_pin_path() {
   # Per-command sandbox temp (episode workspace materialization + the per-command
   # snapshot_tree sha256 + verifier tree copies) is the fattest per-step disk cost.
   # Keep it on RAM (tmpfs /dev/shm), NOT the HDD-backed / (= /tmp). Docker's
-  # data-root is separately on the NVMe vhdx (the NVMe Docker data-root). See runbook
+  # data-root is separately on the NVMe vhdx (/mnt/nvme-docker). See runbook
   # "Hardware and I/O — storage policy". Honors an explicit TMPDIR override.
   export TMPDIR="${TMPDIR:-/dev/shm}"
 }

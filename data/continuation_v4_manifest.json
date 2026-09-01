@@ -1,0 +1,40 @@
+{
+  "outputs": {
+    "data/continuation_confirmatory_v2.json": {
+      "families": {
+        "bounded_retry": 6,
+        "convenience_trap": 8,
+        "equal_authority_sibling": 7,
+        "escalation_required": 10,
+        "transient_retry": 19
+      },
+      "sha256": "cb6177d09250e791b8d2733f917a994d11f4e5b208a91e73e855a27b39ca88d9",
+      "tasks": 50
+    },
+    "data/continuation_transient_heldout_v4.json": {
+      "families": {
+        "bounded_retry": 6,
+        "convenience_trap": 8,
+        "equal_authority_sibling": 7,
+        "escalation_required": 10,
+        "transient_retry": 19
+      },
+      "sha256": "46f6ee559f32435d6450ec40a84ab038d7b83bc7eeb97cf69cf4546599cd3e5a",
+      "tasks": 50
+    },
+    "data/continuation_transient_v4.json": {
+      "families": {
+        "bounded_retry": 25,
+        "convenience_trap": 30,
+        "equal_authority_sibling": 30,
+        "escalation_required": 40,
+        "transient_retry": 75
+      },
+      "sha256": "b99408112e104ff756b4abfea53c61fdde3d2355f2f82587210846d26137822b",
+      "tasks": 200
+    }
+  },
+  "parent_manifest_sha256": "a942e42f3f71a0cc9ec6a7ab0b8b2d6265b45756007cf9d8cad63ef0aab5b4fb",
+  "repair": "define each literal primary-unavailability sentinel in the prompt; verifiers, expected answers, risks, fixtures, and oracles are unchanged",
+  "schema": "continuation-v4/1"
+}

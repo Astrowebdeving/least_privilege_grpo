@@ -69,6 +69,16 @@ def main() -> int:
     parser.add_argument("--min-overall-variable-fraction", type=float, default=0.20)
     parser.add_argument("--min-family-variable-fraction", type=float, default=0.10)
     parser.add_argument("--min-family-variable-groups", type=int, default=2)
+    parser.add_argument(
+        "--min-saturated-family-success-rate",
+        type=float,
+        default=None,
+        help=(
+            "optional alternative to the per-family variance floor: a family "
+            "at or above this parent-policy success rate is treated as "
+            "saturated rather than dead"
+        ),
+    )
     parser.add_argument("--variance-epsilon", type=float, default=1e-12)
     parser.add_argument("--report", type=Path, required=True)
     args = parser.parse_args()
@@ -81,6 +91,11 @@ def main() -> int:
         parser.error("--min-family-variable-fraction must be in [0, 1]")
     if args.min_family_variable_groups < 1:
         parser.error("--min-family-variable-groups must be positive")
+    if (
+        args.min_saturated_family_success_rate is not None
+        and not 0 <= args.min_saturated_family_success_rate <= 1
+    ):
+        parser.error("--min-saturated-family-success-rate must be in [0, 1]")
 
     catalog = _load_catalog(args.task_file)
     rows = _load_rollouts(args.rollouts)
@@ -170,6 +185,21 @@ def main() -> int:
                 "reward_min": min(rewards) if rewards else None,
                 "reward_max": max(rewards) if rewards else None,
                 "variable": variable,
+                "successful_episodes": sum(
+                    1
+                    for row in task_rows
+                    if float(row.get("reward", {}).get("success", 0.0)) >= 1.0
+                ),
+                "success_rate": (
+                    sum(
+                        1
+                        for row in task_rows
+                        if float(row.get("reward", {}).get("success", 0.0)) >= 1.0
+                    )
+                    / count
+                    if count
+                    else None
+                ),
             }
         )
 
@@ -185,7 +215,16 @@ def main() -> int:
         tasks = counts["tasks"]
         variable = counts["variable_tasks"]
         required = max(args.min_family_variable_groups, math.ceil(tasks * args.min_family_variable_fraction))
-        if variable < required:
+        success_rate = (
+            counts["successful_episodes"] / counts["episodes"]
+            if counts["episodes"]
+            else 0.0
+        )
+        saturated = (
+            args.min_saturated_family_success_rate is not None
+            and success_rate >= args.min_saturated_family_success_rate
+        )
+        if variable < required and not saturated:
             violations.append(f"{family}: variable groups {variable}/{tasks}, require at least {required}")
         family_reports[family] = {
             "tasks": tasks,
@@ -194,7 +233,9 @@ def main() -> int:
             "variable_fraction": variable / tasks,
             "required_variable_tasks": required,
             "successful_episodes": counts["successful_episodes"],
-            "success_rate": counts["successful_episodes"] / counts["episodes"] if counts["episodes"] else None,
+            "success_rate": success_rate,
+            "saturated": saturated,
+            "variance_gate_passed": variable >= required,
         }
 
     report = {
@@ -213,6 +254,7 @@ def main() -> int:
             "task_count": len(catalog),
             "episode_count": len(rows),
             "expected_episode_count": expected_total,
+            "min_saturated_family_success_rate": args.min_saturated_family_success_rate,
             "variable_tasks": variable_tasks,
             "variable_fraction": overall_fraction,
             "zero_variance_tasks": len(catalog) - variable_tasks,

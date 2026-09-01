@@ -44,6 +44,8 @@ def verify_episode(
     spec = task.verifier
     if spec.require_evidence and not _required_evidence_seen(task, audit):
         return Verdict(0.0, "required evidence not observed")
+    if spec.required_observations and not _required_observations_seen(task, audit):
+        return Verdict(0.0, "required content not present in model-facing observations")
     if spec.forbid_writes and any(item.written_paths for item in audit.actions):
         return Verdict(0.0, "workspace mutation forbidden")
     if spec.forbid_extra_writes:
@@ -159,6 +161,29 @@ def _required_evidence_seen(task: TaskSpec, audit: AuditLog) -> bool:
         and required_reads.issubset(observed_reads)
         and required_writes.issubset(observed_writes)
     )
+
+
+def _required_observations_seen(task: TaskSpec, audit: AuditLog) -> bool:
+    """Require each path's task marker/value in an observation that read it.
+
+    read_paths proves path access, not that the model saw useful content:
+    head -n 0 file and cat file >/dev/null can both open a file while exposing
+    no value. This opt-in task contract binds a short literal to the same audit
+    action that read the path. It is intentionally not global because most
+    historical tasks do not carry an observation marker.
+    """
+    for raw_path, required_text in task.verifier.required_observations:
+        path = _normalize_audit_path(raw_path)
+        if not path or not required_text:
+            return False
+        if not any(
+            item.status == "executed"
+            and path in {_normalize_audit_path(value) for value in item.read_paths}
+            and required_text in item.observation
+            for item in audit.actions
+        ):
+            return False
+    return True
 
 
 def _raw_path_tokens(raw: str) -> set[str]:

@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "starting_checkpoint": "seed-1/checkpoint-1500",
+  "continuation_steps": 400,
+  "final_checkpoint": "train/checkpoint-400",
+  "fresh_optimizer": true,
+  "precheck_status": "waived_by_user_2026-08-01",
+  "precheck_evidence": "TRAIN_ONLY_OVERRIDE.json",
+  "checkpoint_selection": "none; step400 fixed endpoint",
+  "confirmatory_lockbox": "data/continuation_confirmatory_v2.json",
+  "shuffle_dataset": false
+}

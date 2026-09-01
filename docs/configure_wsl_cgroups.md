@@ -20,7 +20,7 @@ Current verified state:
 Run from the canonical project:
 
 ```bash
-cd <repo>
+cd "$HOME/projects/least_privilege_rl"
 .venv/bin/python scripts/check_rootless_docker.py
 docker info --format '{{.CgroupVersion}}'
 docker info --format '{{json .SecurityOptions}}'
@@ -36,8 +36,8 @@ On another WSL installation, first confirm systemd is enabled and rerun the
 project's split setup:
 
 ```powershell
-wsl -d Ubuntu-24.04 -u root -- bash <repo>/scripts/setup_rootless_docker_system.sh alex
-wsl -d Ubuntu-24.04 -- bash -lc 'cd <repo> && scripts/setup_rootless_docker_user.sh'
+wsl -d Ubuntu-24.04 -u root -- bash /home/<linux-user>/projects/least_privilege_rl/scripts/setup_rootless_docker_system.sh <linux-user>
+wsl -d Ubuntu-24.04 -- bash -lc 'cd "$HOME/projects/least_privilege_rl" && scripts/setup_rootless_docker_user.sh'
 ```
 
 If WSL still exposes a mixed or v1 hierarchy, the fallback is:
@@ -56,4 +56,3 @@ wsl --shutdown
 This is a troubleshooting fallback, not a required current-machine step.
 `wsl --shutdown` terminates all running trainers, vLLM services, containers,
 and other distro processes, so schedule it deliberately.
-
