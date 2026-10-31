@@ -27,11 +27,15 @@ benchmark corpora and per-example generations are not redistributed.
 
 | Policy | Safe success | Success | Over-privileged success |
 |---|---:|---:|---:|
-| Base | 1,864/2,896 (64.36%) | -- | 132/2,896 (4.56%) |
-| Seed 1, checkpoint 1500 | **2,863/2,896 (98.86%)** | -- | **13/2,896 (0.45%)** |
+| Base | 1,864/2,896 (64.36%) | 1,996/2,896 (68.92%) | 132/2,896 (4.56%) |
+| Seed 1, checkpoint 1500 | **2,852/2,896 (98.48%)** | **2,875/2,896 (99.27%)** | **23/2,896 (0.79%)** |
 
-The frozen panel is the strongest in-environment result: a 34.5-point aggregate
-safe-success gain with 119 fewer over-privileged successes. Because safety-heavy
+The frozen panel is the strongest in-environment result: a 34.12-point aggregate
+safe-success gain with 109 fewer over-privileged successes. These are the
+primary frozen-500 run reported in the paper (`results/primary/frozen500_run_config.txt`).
+The continuation analysis re-evaluated the parent in a separate run with a
+different generation seed, so parent values under `results/continuation/` differ
+slightly. Because safety-heavy
 tasks receive more samples, aggregate episode rates are not task-equal rates;
 the continuation analysis reports both forms where they are compared directly.
 
@@ -99,10 +103,9 @@ replaying original behaviors to limit forgetting. Selection used a disjoint
 | Panel | Parent checkpoint 1500 | Continuation 400 | Result |
 |---|---:|---:|---|
 | 50-task lockbox safe success | 271/400 (67.75%) | **362/400 (90.50%)** | +22.75 pp; task-bootstrap 95% CI +12.0 to +34.5; one-sided cluster-randomization p < 0.0002 |
-| Frozen-500 safe success | 2,863/2,896 (98.86%) | **2,860/2,896 (98.76%)** | -0.10 pp; not significant |
-| Frozen-500 over-privileged success | 13/2,896 (0.45%) | **16/2,896 (0.55%)** | +3; not significant |
-| MetaTool accuracy | 837/1,000 (83.7%) in same analysis run | **835/1,000 (83.5%)** | -2; not significant overall |
-| ToolPrivBench over-privileged selection | 244/544 (44.85%) | **207/544 (38.05%)** | -37; exact one-sided p=3.70e-5 |
+| Frozen-500 safe success | 2,852/2,896 (98.48%) | **2,860/2,896 (98.76%)** | +0.28 pp; not significant |
+| MetaTool accuracy | 836/1,000 (83.6%) | **835/1,000 (83.5%)** | -1; not significant overall |
+| ToolPrivBench over-privileged selection | 245/544 (45.04%) | **207/544 (38.05%)** | -6.99 pp; exact one-sided p=3.7e-5 |
 
 Against base, continuation 400 remains much stronger internally and reduces
 ToolPrivBench over-privilege from 246/544 to 207/544 (66 beneficial versus 27
@@ -131,11 +134,13 @@ are additive rather than redundant in this experiment.
 
 The reward study changes one reward component at a time while keeping the
 catalog, training budget, seeds, rollout sampling, parent policy, and control
-evaluation scorer fixed. `A0` is the full reward, `A2` removes the privilege
-penalty, `B1` uses a coarse unsafe-any penalty, and `A4` removes evidence reward.
+evaluation scorer fixed. `A0` is the full reward, `B1` removes the privilege
+penalty, `A2` replaces it with a flat count of actions that touch an unlicensed
+write, execution, external, or secret dimension (no degrees or weights), and
+`A4` keeps the penalty but removes the task envelope so all risk is penalized.
 
 In the base-start 500-task campaign (three seeds per arm), held-out safe success
-means are 0.9033 (`A0`), 0.8783 (`A2`), 0.9642 (`A4`), and 0.8725 (`B1`). The
+means are 0.9033 (`A0`), 0.8775 (`A2`), 0.9633 (`A4`), and 0.8700 (`B1`). The
 apparent `A4` gain is driven by output-format families; after excluding them,
 `A4` is 1.19 points below `A0` and its interval touches zero. `A2` and `B1` are
 1.98 and 1.88 points below `A0`, respectively, on no-format safe success, with
@@ -146,10 +151,9 @@ In the production-policy continuation campaign (five seeds per main arm), mean
 ToolPrivBench over-privilege is 36.69% for `A0`, 35.55% for `A2`, and 42.21% for
 `B1`, versus 46.32% for the same-run parent. `A0` and `A2` do not differ
 significantly at the seed level (exact two-sided permutation p=0.611), while
-`B1` is worse than `A0` (p=0.040) and `A2` (p=0.016). Thus the experiment
-supports the value of a graded privilege-aware signal over a coarse unsafe-any
-penalty, but it does not isolate a significant difference between the full
-reward and removing the privilege term in that particular five-seed transfer
+`B1` is worse than `A0` (p=0.040) and `A2` (p=0.016). Thus removing the
+privilege penalty loses a significant part of the transfer gain, while the flat
+count and the graded penalty are statistically tied on this five-seed transfer
 panel. Full per-seed outputs are under `results/causal/`.
 
 ## Reproducibility boundaries
