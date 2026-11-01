@@ -1,5 +1,12 @@
 # Least-Privilege RL
 
+Code, benchmark, and training harness for the paper **Learned Restraint:
+Task-Conditioned Least-Privilege Learning for Executable Terminal and MCP
+Agents** (A. Tu and M. Tu, IEEE CCNC 2027). The camera-ready paper is at
+[paper/LearnedRestraint_CCNC2027_CameraReady.pdf](paper/LearnedRestraint_CCNC2027_CameraReady.pdf),
+and the trained LoRA adapters are at
+[`tu101/least-privilege-model`](https://huggingface.co/tu101/least-privilege-model).
+
 A terminal-agent environment, benchmark, and RL training harness for studying
 whether a coding agent can be trained to accomplish tasks **using no more
 privilege than the task requires**.
@@ -184,8 +191,8 @@ the compact campaign records are in [docs/RESULTS.md](docs/RESULTS.md). Released
 LoRA endpoints and loading instructions are documented in
 [docs/MODEL_RELEASE.md](docs/MODEL_RELEASE.md) and hosted at
 [`tu101/least-privilege-model`](https://huggingface.co/tu101/least-privilege-model).
-The current review manuscript is included at
-[paper/LeastPrivilegePaperIEEEReviewManuscriptSubmit.pdf](paper/LeastPrivilegePaperIEEEReviewManuscriptSubmit.pdf).
+The camera-ready paper (IEEE CCNC 2027) is included at
+[paper/LearnedRestraint_CCNC2027_CameraReady.pdf](paper/LearnedRestraint_CCNC2027_CameraReady.pdf).
 
 ## Reward
 
@@ -232,9 +239,21 @@ ToolPrivBench, FORTIS, or MetaTool; obtain those from their upstream projects.
 
 ## Status
 
-Research code accompanying a paper. The environment, benchmark,
+Research code accompanying the IEEE CCNC 2027 paper. The environment, benchmark,
 reward, and training pipeline are complete and gated by the test suite and the
 checks in `scripts/`. Interfaces may still change.
+
+## Citation
+
+```bibtex
+@inproceedings{tu2027learnedrestraint,
+  author    = {Tu, Alexander and Tu, Michael},
+  title     = {Learned Restraint: Task-Conditioned Least-Privilege Learning for
+               Executable Terminal and {MCP} Agents},
+  booktitle = {Proc. IEEE Consumer Communications \& Networking Conference (CCNC)},
+  year      = {2027}
+}
+```
 
 ## License
 
